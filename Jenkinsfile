@@ -7,7 +7,7 @@ pipeline {
                 git 'https://github.com/vaibhavkalel1/Quiz-Automation.git'
             }
         }
-        stage('Build Docker Image') {
+        /*stage('Build Docker Image') {
             steps {
                 script {
                     bat "docker build -t vaibhavkalel/quizautomation ."
@@ -98,13 +98,20 @@ pipeline {
                     bat "kubectl expose deployment quiz-app-deployment1 --type=NodePort --port=8000"
                 }
             }
+        }*/
+        stage('Get URL') {
+            steps {
+                script {
+                    bat "minikube service quiz-app-service1 --url"
+                }
+            }
         }
-        stage('Get URL and play with Application') {
+        /*stage('Get URL and play with Application') {
             steps {
                 script {
                     bat "minikube service quiz-app-service1"
                 }
             }
-        }
+        }*/
     }
 }

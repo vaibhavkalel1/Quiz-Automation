@@ -98,7 +98,7 @@ pipeline {
                     bat "kubectl expose deployment quiz-app-deployment1 --type=NodePort --port=8000"
                 }
             }
-        }*/
+        }
         stage('Get URL and play with Application') {
             steps {
                 script {

@@ -7,7 +7,7 @@ pipeline {
                 git 'https://github.com/vaibhavkalel1/Quiz-Automation.git'
             }
         }
-        /*stage('Build Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 script {
                     bat "docker build -t vaibhavkalel/quizautomation ."
@@ -45,7 +45,7 @@ pipeline {
 
             }
         }
-        stage('Download Minikube for Windows') {
+        /*stage('Download Minikube for Windows') {
             steps {
                 bat 'curl -Lo minikube.exe https://storage.googleapis.com/minikube/releases/latest/minikube-windows-amd64.exe'
             }
@@ -69,13 +69,13 @@ pipeline {
                 }
             }
         }
-        /*stage('Minikube status') {
+        /*8stage('Minikube status') {
             steps {
                 script {
                     bat "minikube status"
                 }
             }
-        }
+        }*/
         stage('Deploy to Kubernetes') {
             steps {
                 script {
@@ -98,7 +98,7 @@ pipeline {
                     bat "kubectl expose deployment quiz-app-deployment1 --type=NodePort --port=8000"
                 }
             }
-        }*/
+        }
         stage('Get URL') {
             steps {
                 script {

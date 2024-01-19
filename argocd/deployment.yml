@@ -15,9 +15,7 @@ spec:
     spec:
       containers:
       - name: quizautomationcontainer
-        image: vaibhavkalel/quizautomation
+        image: vaibhavkalel/quizautomation:latest
         command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
         ports:
         - containerPort: 8000
-        imagePullSecrets:
-        - name: regcred

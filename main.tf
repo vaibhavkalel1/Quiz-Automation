@@ -7,9 +7,9 @@ variable "name" {
 }
 
 resource "aws_instance" "admin_frontend" {
-    ami = "ami-05fb0b8c1424f266b"
+    ami = "ami-02ca28e7c7b8f8be1"
     instance_type = "t2.micro"
-    key_name = "f2"
+    key_name = "f1"
 
     tags = {
             Name = var.name

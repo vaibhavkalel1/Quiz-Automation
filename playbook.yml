@@ -12,7 +12,7 @@
 
   tasks:
     - name: Install system dependencies
-      dnf:
+      yum:
         name: "{{ item }}"
         state: latest
       loop:
@@ -25,13 +25,11 @@
         - python3-virtualenv
         - python3-setuptools
 
-    - name: Add Docker GPG apt Key
-      dnf:
-        name: docker-ce
-        state: latest
+    - name: Add Docker GPG key
+      shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
-    - name: Add Docker Repository
-      dnf:
+    - name: Install Docker
+      yum:
         name: docker-ce
         state: latest
 
@@ -51,19 +49,19 @@
         dest: /home/ec2-user/project/Quiz-application
 
     - name: Build Docker image
-      command: docker build -t {{ docker_image_name }}:{{ docker_image_tag }} /home/ec2-user/project/Quiz-application
+      shell: docker build -t {{ docker_image_name }}:{{ docker_image_tag }} /home/ec2-user/project/Quiz-application
 
     - name: Log in to Docker Hub
-      command: echo "{{ docker_hub_password }}" | docker login --username {{ docker_hub_username }} --password-stdin
+      shell: echo "{{ docker_hub_password }}" | docker login --username {{ docker_hub_username }} --password-stdin
 
     - name: Push Docker image to Docker Hub
-      command: docker push {{ docker_image_name }}:{{ docker_image_tag }}
+      shell: docker push {{ docker_image_name }}:{{ docker_image_tag }}
 
     - name: Check if container is running
-      command: docker ps -a
+      shell: docker ps -a
 
     - name: Run Docker container
-      command: docker run -dit --name vaibhavkalel1 -p 8000:8000 {{ docker_image_name }}:{{ docker_image_tag }}
+      shell: docker run -dit --name vaibhavkalel1 -p 8000:8000 {{ docker_image_name }}:{{ docker_image_tag }}
 
     - name: Show running images
-      command: docker images
+      shell: docker images

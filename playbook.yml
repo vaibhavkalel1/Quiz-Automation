@@ -5,7 +5,7 @@
 
   vars:
     github_repo_url: "https://github.com/vaibhavkalel1/Quiz-Automation.git"
-    docker_image_name: "vaibhavkalel/quiz_app3"
+    docker_image_name: "vaibhavkalel/quiz_app4"
     docker_image_tag: "latest"
     docker_hub_username: "vaibhavkalel"
     docker_hub_password: "vaibhav2115"
@@ -28,10 +28,10 @@
         enabled: yes
 
     - name: Clone GitHub repository
-      shell: git clone {{ github_repo_url }} /home/ec2-user/project/Quiz-App
+      shell: git clone {{ github_repo_url }} /home/ec2-user/project/Quiz
 
     - name: Build Docker image
-      shell: docker build -t {{ docker_image_name }}:{{ docker_image_tag }} /home/ec2-user/project/Quiz-App
+      shell: docker build -t {{ docker_image_name }}:{{ docker_image_tag }} /home/ec2-user/project/Quiz
 
     - name: Log in to Docker Hub
       shell: echo "{{ docker_hub_password }}" | docker login --username {{ docker_hub_username }} --password-stdin
@@ -43,7 +43,7 @@
       shell: docker ps -a
 
     - name: Run Docker container
-      shell: docker run -dit --name vaibhavaklel1 -p 8000:8000 {{ docker_image_name }}:{{ docker_image_tag }}
+      shell: docker run -dit --name vaibhavaklel2 -p 8000:8000 {{ docker_image_name }}:{{ docker_image_tag }}
 
     - name: Show running images
       shell: docker images

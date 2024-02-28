@@ -12,7 +12,7 @@
 
   tasks:
     - name: Install system dependencies
-      yum:
+      dnf:
         name: "{{ item }}"
         state: latest
       loop:
@@ -26,34 +26,44 @@
         - python3-setuptools
 
     - name: Add Docker GPG apt Key
-      shell: curl -fsSL https://download.docker.com/linux/amazonlinux/gpg | sudo gpg --import -
+      dnf:
+        name: docker-ce
+        state: latest
 
     - name: Add Docker Repository
-      shell: sudo amazon-linux-extras install docker -y
+      dnf:
+        name: docker-ce
+        state: latest
 
-    - name: Start Docker service
-      service:
-        name: "docker"
-        state: started
+    - name: Install docker-py
+      pip:
+        name: docker-py
+
+    - name: Enable Docker service
+      systemd:
+        name: docker
         enabled: yes
+        state: started
 
     - name: Clone GitHub repository
-      shell: git clone {{ github_repo_url }} /home/ec2-user/project/Quiz-application
+      git:
+        repo: "{{ github_repo_url }}"
+        dest: /home/ec2-user/project/Quiz-application
 
     - name: Build Docker image
-      shell: docker build -t {{ docker_image_name }}:{{ docker_image_tag }} /home/ec2-user/project/Quiz-application
+      command: docker build -t {{ docker_image_name }}:{{ docker_image_tag }} /home/ec2-user/project/Quiz-application
 
     - name: Log in to Docker Hub
-      shell: echo "{{ docker_hub_password }}" | docker login --username {{ docker_hub_username }} --password-stdin
+      command: echo "{{ docker_hub_password }}" | docker login --username {{ docker_hub_username }} --password-stdin
 
     - name: Push Docker image to Docker Hub
-      shell: docker push {{ docker_image_name }}:{{ docker_image_tag }}
+      command: docker push {{ docker_image_name }}:{{ docker_image_tag }}
 
     - name: Check if container is running
-      shell: docker ps -a
+      command: docker ps -a
 
     - name: Run Docker container
-      shell: docker run -dit --name vaibhavkalel1 -p 8000:8000 {{ docker_image_name }}:{{ docker_image_tag }}
+      command: docker run -dit --name vaibhavkalel1 -p 8000:8000 {{ docker_image_name }}:{{ docker_image_tag }}
 
     - name: Show running images
-      shell: docker images
+      command: docker images

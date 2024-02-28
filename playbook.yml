@@ -1,6 +1,6 @@
 ---
 - name: Setup Docker environment and deploy application
-  hosts: all
+  hosts: webservers
   become: yes
 
   vars:
